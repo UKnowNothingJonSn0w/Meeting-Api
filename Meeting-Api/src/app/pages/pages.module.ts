@@ -12,7 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core'; // Dodaj ten import
+import { MatNativeDateModule } from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -27,7 +27,6 @@ import {MatSelectModule} from '@angular/material/select';
 
 
   imports: [
-   // ModalModule.forRoot(),
     PagesRoutingModule,
     BrowserModule,
     HttpClientModule,
