@@ -1,0 +1,115 @@
+<mat-toolbar>
+    <mat-icon>arrow_back</mat-icon>
+    <div class="buttons">
+        <button mat-stroked-button>Save as draft</button>
+        <button mat-stroked-button>Save & Publish</button>
+    </div>
+</mat-toolbar>
+<div class="row body-div">
+    <div class="col-lg-4 main-view">
+        <h1>New meeting </h1>
+        <p>Meeting type</p>
+        <div class="meeting-type-buttons">
+            <mat-button-toggle-group name="meeting-type1" [(ngModel)]="selectedMeetingType">
+                <mat-button-toggle value="Board meeting"
+                    [class.selected]="selectedMeetingType === 'Board meeting'">Board meeting</mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <mat-button-toggle-group name="meeting-type2" [(ngModel)]="selectedMeetingType">
+                <mat-button-toggle value="General assembly"
+                    [class.selected]="selectedMeetingType === 'General assembly'">General assembly</mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <mat-button-toggle-group name="meeting-type3" [(ngModel)]="selectedMeetingType">
+                <mat-button-toggle value="Other"
+                    [class.selected]="selectedMeetingType === 'Other'">Other</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div class="meeting-name">
+            <p>Meeting name</p>
+            <mat-form-field appearance="outline">
+                <mat-label>Meeting name</mat-label>
+                <input matInput type="text" [(ngModel)]="value">
+                <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <div class="date-time-form">
+            <p>
+                Date and time
+            </p>
+            <div class="date-and-time">
+                <div class="date-form">
+                    <mat-form-field class="date">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="time-input" style="display: flex;">
+                    <mat-form-field class="time" appearance="outline">
+                        <input matInput type="time">
+                    </mat-form-field>
+                    <mat-form-field class="time" appearance="outline">
+                        <input matInput type="time">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="location">
+            <p>Location</p>
+            <p>
+                <mat-checkbox [formControl]="disableOnlineMeeting">Address</mat-checkbox>
+            </p>
+            <mat-form-field class="address" appearance="outline">
+                <input matInput type="text" placeholder="Address..." [disabled]="disableAddress.value"
+                    [ngClass]="{ 'disabled-input': disableAddress.value }">
+            </mat-form-field>
+            <p>
+                <mat-checkbox [formControl]="disableAddress">OnlineMeeting</mat-checkbox>
+            </p>
+            <mat-form-field class="address" appearance="outline">
+                <input matInput type="text" placeholder="Paste meeting link..." [disabled]="disableOnlineMeeting.value"
+                    [ngClass]="{ 'disabled-input': disableOnlineMeeting.value }">
+            </mat-form-field>
+        </div>
+        <div class="documents">
+            <ul>
+                <li *ngFor="let file of uploadedFiles">
+                    <mat-icon>insert_drive_file</mat-icon> {{ file.name }}
+                    <button class="clear" (click)="removeFile(file)"><mat-icon>clear</mat-icon></button>
+                </li>
+            </ul>
+            <p>Documents</p>
+            <div class="file-upload-wrapper">
+                <button class="file-upload-button" (click)="fileInput.click()">
+                    Add document
+                </button>
+                <input type="file" #fileInput (change)="handleFileInput($event)" style="display: none">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="tasks">
+            <p>
+                Tasks
+            </p>
+            <div class="new-task-button">
+                <button mat-stroked-button class="new-task" (click)="openModal(template)">New Task</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        This is a modal.
+    </div>
+</ng-template>
