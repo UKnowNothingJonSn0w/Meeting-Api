@@ -5,6 +5,8 @@ import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +15,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 })
 export class HomeComponent implements OnInit {
 
+  modalRef?: BsModalRef;
 
   disableOnlineMeeting = new FormControl(false);
   disableAddress = new FormControl(false);
@@ -26,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit(): void {
   }
@@ -45,5 +48,7 @@ export class HomeComponent implements OnInit {
       this.uploadedFiles.splice(index, 1);
     }
   }
-
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 }
