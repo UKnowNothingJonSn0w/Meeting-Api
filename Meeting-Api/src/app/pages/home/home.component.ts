@@ -5,6 +5,7 @@ import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+//import { ModalModule } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-home',
