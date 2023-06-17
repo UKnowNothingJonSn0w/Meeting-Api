@@ -78,14 +78,17 @@
             </mat-form-field>
         </div>
         <div class="documents">
-            <ul>
-                <li *ngFor="let file of uploadedFiles">
-                    <mat-icon>insert_drive_file</mat-icon> {{ file.name }}
-                    <button class="clear" (click)="removeFile(file)">
-                        <mat-icon>clear</mat-icon>
-                    </button>
-                </li>
-            </ul>
+            <mat-list>
+                <mat-list-item *ngFor="let file of uploadedFiles">
+                    <div class="attached-files">
+                        <mat-icon matListItemIcon>attach_file</mat-icon>
+                        <h4 mat-line>{{ file.name }}</h4>
+                        <button mat-icon-button class="clear" (click)="removeFile(file)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </div>
+                </mat-list-item>
+            </mat-list>
             <p>Documents</p>
             <div class="file-upload-wrapper">
                 <button class="file-upload-button" (click)="fileInput.click()">
@@ -95,7 +98,8 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+
+    <div class="col-lg-4 right-view">
         <div class="tasks">
             <p>Tasks</p>
             <div class="new-task-button">
@@ -103,29 +107,37 @@
             </div>
         </div>
         <div class="saved-tasks">
-            <ul>
-                <li *ngFor="let task of tasks">
-                    {{ task }}
-                </li>
-            </ul>
+            <mat-list>
+                <mat-list-item *ngFor="let task of tasks">
+                    <div class="added-tasks">
+                        <h5 mat-line>{{ task }}</h5>
+                        <button mat-icon-button class="edit">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button class="clear" (click)="removeTask(task)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </div>
+                </mat-list-item>
+            </mat-list>
         </div>
         <div class="invitees">
             <p>Invitees</p>
         </div>
         <mat-tab-group>
-            <mat-tab label="Board"> 
+            <mat-tab label="Board">
                 <mat-form-field class="invitees" appearance="outline">
-                    <input matInput type="search" placeholder="Search..." >
+                    <input matInput type="search" placeholder="Search...">
                 </mat-form-field>
             </mat-tab>
             <mat-tab label="Guests"> Guests </mat-tab>
-          </mat-tab-group>
-        
+        </mat-tab-group>
+
     </div>
 </div>
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">New Task</h4>
+        <h3 class="modal-title" id="modal-basic-title">New Task</h3>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">

@@ -18,6 +18,7 @@ import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     NgbTimepickerModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatListModule
   ],
 
   providers: [],
