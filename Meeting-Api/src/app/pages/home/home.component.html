@@ -7,22 +7,26 @@
 </mat-toolbar>
 <div class="row body-div">
     <div class="col-lg-4 main-view">
-        <h1>New meeting </h1>
+        <h1>New meeting</h1>
         <p>Meeting type</p>
         <div class="meeting-type-buttons">
             <mat-button-toggle-group name="meeting-type1" [(ngModel)]="selectedMeetingType">
-                <mat-button-toggle value="Board meeting"
-                    [class.selected]="selectedMeetingType === 'Board meeting'">Board meeting</mat-button-toggle>
+                <mat-button-toggle value="Board meeting" [class.selected]="selectedMeetingType === 'Board meeting'">
+                    Board meeting
+                </mat-button-toggle>
             </mat-button-toggle-group>
 
             <mat-button-toggle-group name="meeting-type2" [(ngModel)]="selectedMeetingType">
                 <mat-button-toggle value="General assembly"
-                    [class.selected]="selectedMeetingType === 'General assembly'">General assembly</mat-button-toggle>
+                    [class.selected]="selectedMeetingType === 'General assembly'">
+                    General assembly
+                </mat-button-toggle>
             </mat-button-toggle-group>
 
             <mat-button-toggle-group name="meeting-type3" [(ngModel)]="selectedMeetingType">
-                <mat-button-toggle value="Other"
-                    [class.selected]="selectedMeetingType === 'Other'">Other</mat-button-toggle>
+                <mat-button-toggle value="Other" [class.selected]="selectedMeetingType === 'Other'">
+                    Other
+                </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
         <div class="meeting-name">
@@ -30,15 +34,13 @@
             <mat-form-field appearance="outline">
                 <mat-label>Meeting name</mat-label>
                 <input matInput type="text" [(ngModel)]="value">
-                <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value='';">
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
         </div>
         <div class="date-time-form">
-            <p>
-                Date and time
-            </p>
+            <p>Date and time</p>
             <div class="date-and-time">
                 <div class="date-form">
                     <mat-form-field class="date">
@@ -79,7 +81,9 @@
             <ul>
                 <li *ngFor="let file of uploadedFiles">
                     <mat-icon>insert_drive_file</mat-icon> {{ file.name }}
-                    <button class="clear" (click)="removeFile(file)"><mat-icon>clear</mat-icon></button>
+                    <button class="clear" (click)="removeFile(file)">
+                        <mat-icon>clear</mat-icon>
+                    </button>
                 </li>
             </ul>
             <p>Documents</p>
@@ -87,29 +91,55 @@
                 <button class="file-upload-button" (click)="fileInput.click()">
                     Add document
                 </button>
-                <input type="file" #fileInput (change)="handleFileInput($event)" style="display: none">
+                <input type="file" #fileInput (change)="handleFileInput($event)" style="display: none" />
             </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="tasks">
-            <p>
-                Tasks
-            </p>
+            <p>Tasks</p>
             <div class="new-task-button">
-                <button mat-stroked-button class="new-task" (click)="openModal(template)" >New Task</button>
+                <button mat-stroked-button class="new-task" (click)="open(content)">New Task</button>
             </div>
         </div>
+        <div class="saved-tasks">
+            <ul>
+                <li *ngFor="let task of tasks">
+                    {{ task }}
+                </li>
+            </ul>
+        </div>
+        <div class="invitees">
+            <p>Invitees</p>
+        </div>
+        <mat-tab-group>
+            <mat-tab label="Board"> 
+                <mat-form-field class="invitees" appearance="outline">
+                    <input matInput type="search" placeholder="Search..." >
+                </mat-form-field>
+            </mat-tab>
+            <mat-tab label="Guests"> Guests </mat-tab>
+          </mat-tab-group>
+        
     </div>
 </div>
-<ng-template #template>
+<ng-template #content let-modal>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Modal</h4>
-      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
-        <span aria-hidden="true" class="visually-hidden">&times;</span>
-      </button>
+        <h4 class="modal-title" id="modal-basic-title">New Task</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      This is a modal.
+        <mat-form-field appearance="outline" style="width: 80%;">
+            <mat-label>Task name</mat-label>
+            <div class="task-input" style="display: flex;">
+                <input matInput type="text" [(ngModel)]="taskname" />
+                <button *ngIf="taskname" mat-icon-button aria-label="Clear" (click)="taskname = '';">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </mat-form-field>
     </div>
-  </ng-template>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>

@@ -17,6 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatFormFieldModule,
     NgbTimepickerModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ],
 
   providers: [],

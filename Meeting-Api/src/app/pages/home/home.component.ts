@@ -1,12 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -15,21 +13,22 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class HomeComponent implements OnInit {
 
-  modalRef?: BsModalRef;
+  closeResult = '';
 
   disableOnlineMeeting = new FormControl(false);
   disableAddress = new FormControl(false);
-
+taskname = '';
   selectedMeetingType: undefined;
   value = '';
   uploadedFiles: File[] = [];
+  tasks: string[] = []; // Lista zadań
 
   getButtonToggleClass(meetingType: string): string {
     return this.selectedMeetingType === meetingType ? 'selected' : '';
   }
 
 
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -41,14 +40,25 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  
+
   removeFile(file: File) {
     const index = this.uploadedFiles.indexOf(file);
     if (index !== -1) {
       this.uploadedFiles.splice(index, 1);
     }
   }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+
+  open(content: any) {
+    this.modalService.open(content).result.then(
+      (result) => {
+        if (result === 'Save click') {
+          if (this.taskname.trim() !== '') { // Sprawdzanie czy Task Name nie jest pusty
+            this.tasks.push(this.taskname); // Dodanie Task Name do listy zadań
+            this.taskname = ''; // Wyczyszczenie wartości po dodaniu do listy
+          }
+        }
+        this.closeResult = `Closed with: ${result}`;
+      },
+    );
   }
 }

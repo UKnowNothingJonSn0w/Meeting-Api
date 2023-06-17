@@ -7,7 +7,6 @@ import { PagesModule } from './pages/pages.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
@@ -19,7 +18,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgbModule,
-    ModalModule
   ],
   
   providers: [],
