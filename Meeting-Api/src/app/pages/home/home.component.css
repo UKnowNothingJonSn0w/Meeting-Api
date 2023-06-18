@@ -108,4 +108,16 @@ mat-list-item{
 }
 h5{
     font-size: 15px;
+    padding-top: 10px;
+}
+ul{
+    list-style-type: none;
+}
+.agenda-buttons{
+    margin-top: 30px;
+}
+.agenda{
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 10px 10px 10px 10px;
 }

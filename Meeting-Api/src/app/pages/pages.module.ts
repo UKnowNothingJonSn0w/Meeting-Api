@@ -19,6 +19,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {MatListModule} from '@angular/material/list';
     MatCheckboxModule,
     MatSelectModule,
     MatTabsModule,
-    MatListModule
+    MatListModule,
+    NgbAlertModule
   ],
 
   providers: [],

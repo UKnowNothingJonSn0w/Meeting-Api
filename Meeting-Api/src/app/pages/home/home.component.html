@@ -1,3 +1,6 @@
+<ngb-alert *ngIf="alertVisible" (closed)="alertVisible = false" [dismissible]="false">
+    Task added successfully!
+  </ngb-alert>
 <mat-toolbar>
     <mat-icon>arrow_back</mat-icon>
     <div class="buttons">
@@ -70,12 +73,27 @@
                     [ngClass]="{ 'disabled-input': disableAddress.value }">
             </mat-form-field>
             <p>
-                <mat-checkbox [formControl]="disableAddress">OnlineMeeting</mat-checkbox>
+                <mat-checkbox [formControl]="disableAddress">Online meeting</mat-checkbox>
             </p>
             <mat-form-field class="address" appearance="outline">
                 <input matInput type="text" placeholder="Paste meeting link..." [disabled]="disableOnlineMeeting.value"
                     [ngClass]="{ 'disabled-input': disableOnlineMeeting.value }">
             </mat-form-field>
+        </div>
+        <div class="agenda">
+            <p>
+                Agenda
+            </p>
+            <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua.
+            </span>
+            <div class="agenda-buttons">
+                <button mat-stroked-button>Create agenda</button>
+                <button mat-stroked-button class="file-upload-button" (click)="fileInput.click()">
+                    Choose file
+                </button>
+            </div>
         </div>
         <div class="documents">
             <mat-list>
@@ -91,7 +109,7 @@
             </mat-list>
             <p>Documents</p>
             <div class="file-upload-wrapper">
-                <button class="file-upload-button" (click)="fileInput.click()">
+                <button mat-stroked-button class="file-upload-button" (click)="fileInput.click()">
                     Add document
                 </button>
                 <input type="file" #fileInput (change)="handleFileInput($event)" style="display: none" />
@@ -111,12 +129,14 @@
                 <mat-list-item *ngFor="let task of tasks">
                     <div class="added-tasks">
                         <h5 mat-line>{{ task }}</h5>
-                        <button mat-icon-button class="edit">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button class="clear" (click)="removeTask(task)">
-                            <mat-icon>clear</mat-icon>
-                        </button>
+                        <div class="task-buttons">
+                            <button mat-icon-button class="edit" (click)="openEditModal(task)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button class="clear" (click)="removeTask(task)">
+                                <mat-icon>clear</mat-icon>
+                            </button>
+                        </div>
                     </div>
                 </mat-list-item>
             </mat-list>
@@ -127,31 +147,70 @@
         <mat-tab-group>
             <mat-tab label="Board">
                 <mat-form-field class="invitees" appearance="outline">
-                    <input matInput type="search" placeholder="Search...">
+                    <input matInput type="search" placeholder="Search..." [(ngModel)]="searchText"
+                        (ngModelChange)="filterBoard()">
                 </mat-form-field>
+                <div class="all-board">
+                    <mat-checkbox class="example-margin" [(ngModel)]="allComplete" (change)="setAll($event.checked)">
+                        All
+                    </mat-checkbox>
+                </div>
+
+                <mat-selection-list #board>
+                    <ul>
+                        <li *ngFor="let board of filteredBoard">
+                            <mat-checkbox [(ngModel)]="board.checked">
+                                {{ board.label }}
+                                <span matListItemLine>{{ board.department }}</span>
+                            </mat-checkbox>
+                        </li>
+                    </ul>
+                </mat-selection-list>
             </mat-tab>
-            <mat-tab label="Guests"> Guests </mat-tab>
+            <mat-tab label="Guests"> Some guests </mat-tab>
         </mat-tab-group>
 
-    </div>
-</div>
-<ng-template #content let-modal>
-    <div class="modal-header">
-        <h3 class="modal-title" id="modal-basic-title">New Task</h3>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-        <mat-form-field appearance="outline" style="width: 80%;">
-            <mat-label>Task name</mat-label>
-            <div class="task-input" style="display: flex;">
-                <input matInput type="text" [(ngModel)]="taskname" />
-                <button *ngIf="taskname" mat-icon-button aria-label="Clear" (click)="taskname = '';">
-                    <mat-icon>close</mat-icon>
-                </button>
+        <!--TEMPLATES-->
+        <ng-template #content let-modal>
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-basic-title">New Task</h3>
+                <button type="button" class="btn-close" aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"></button>
             </div>
-        </mat-form-field>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div>
-</ng-template>
+            <div class="modal-body">
+                <mat-form-field appearance="outline" style="width: 80%;">
+                    <mat-label>Task name</mat-label>
+                    <div class="task-input" style="display: flex;">
+                        <input matInput type="text" [(ngModel)]="taskname" />
+                        <button *ngIf="taskname" mat-icon-button aria-label="Clear" (click)="taskname = '';">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </mat-form-field>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+            </div>
+        </ng-template>
+        <ng-template #editModal let-modal>
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-basic-title">Edit Task</h3>
+                <button type="button" class="btn-close" aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+                <mat-form-field appearance="outline" style="width: 80%;">
+                    <mat-label>Task name</mat-label>
+                    <div class="task-input" style="display: flex;">
+                        <input matInput type="text" [(ngModel)]="taskname" />
+                        <button *ngIf="editedTask" mat-icon-button aria-label="Clear" (click)="editedTask = '';">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </mat-form-field>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="saveTask()">Save</button>
+            </div>
+        </ng-template>
+     
